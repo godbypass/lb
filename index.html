@@ -2,44 +2,99 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>#1 MCFA Gen - Free Minecraft Full Access Accounts</title>
-  
+  <title>#1 MCFA Gen - Click to Start</title>
+
   <!-- Discord Embed (Open Graph) -->
   <meta property="og:title" content="Free Minecraft Full Access Accounts 🔥" />
   <meta property="og:description" content="#1 MCFA Gen – Free, fast and easy!" />
   <meta property="og:url" content="https://yourdomain.com/" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://yourdomain.com/preview.png" /> <!-- optional -->
+  <meta property="og:image" content="https://yourdomain.com/preview.png" />
 
-  <!-- Responsive fullscreen video -->
   <style>
     html, body {
       margin: 0;
       padding: 0;
-      overflow: hidden;
       background: black;
       height: 100%;
       width: 100%;
+      overflow: hidden;
+    }
+    #click-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      background: black;
+      font-size: 3rem;
+      font-family: sans-serif;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      z-index: 2;
+      cursor: pointer;
     }
     video {
-      position: fixed;
+      position: absolute;
       top: 50%;
       left: 50%;
       min-width: 100%;
       min-height: 100%;
       transform: translate(-50%, -50%);
       object-fit: cover;
-      z-index: -1;
+      z-index: 1;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-  <!-- Fast-loading MP4 from external URL -->
-  <video autoplay muted loop playsinline preload="auto">
-    <source src="https://files.catbox.moe/7qadsc.mov" type="video/mov">
-    Your browser does not support the video tag.
-  </video>
+<div id="click-screen">Click Me</div>
+
+<video id="mainVideo" playsinline>
+  <source src="https://files.catbox.moe/l245i5.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+<script>
+  const clickScreen = document.getElementById('click-screen');
+  const video = document.getElementById('mainVideo');
+
+  async function startVideo() {
+    clickScreen.style.display = 'none';
+    video.style.display = 'block';
+    video.muted = false;
+    video.volume = 1.0;
+    video.setAttribute("autoplay", "true");
+    video.setAttribute("loop", "true");
+
+    try {
+      await video.play();
+    } catch (err) {
+      alert("Video playback failed. Try clicking again.");
+      console.error(err);
+    }
+
+    // Fullscreen logic
+    const requestFullScreen = video.requestFullscreen ||
+                              video.webkitRequestFullscreen ||
+                              video.msRequestFullscreen ||
+                              video.mozRequestFullScreen;
+
+    if (requestFullScreen) {
+      requestFullScreen.call(video);
+    }
+
+    // Try to re-enter fullscreen if exited (optional)
+    document.addEventListener('fullscreenchange', () => {
+      if (!document.fullscreenElement) {
+        requestFullScreen?.call(video);
+      }
+    });
+  }
+
+  clickScreen.addEventListener('click', startVideo);
+</script>
 
 </body>
 </html>
