@@ -11,6 +11,8 @@
   <meta property="og:type" content="website" />
   <meta property="og:image" content="https://yourdomain.com/preview.png" />
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <style>
     html, body {
       margin: 0;
@@ -20,6 +22,7 @@
       width: 100%;
       overflow: hidden;
     }
+
     #click-screen {
       display: flex;
       align-items: center;
@@ -33,15 +36,19 @@
       width: 100%;
       z-index: 2;
       cursor: pointer;
+      text-align: center;
+      padding: 1rem;
     }
+
     video {
       position: absolute;
       top: 50%;
       left: 50%;
-      min-width: 100%;
-      min-height: 100%;
+      height: 100%;
+      width: 100%;
       transform: translate(-50%, -50%);
-      object-fit: cover;
+      object-fit: contain; /* ⬅️ Shows entire video without cropping */
+      background: black;
       z-index: 1;
       display: none;
     }
@@ -71,7 +78,7 @@
     try {
       await video.play();
     } catch (err) {
-      alert("Video playback failed. Try clicking again.");
+      alert("Video playback failed. Try tapping again.");
       console.error(err);
     }
 
@@ -85,7 +92,7 @@
       requestFullScreen.call(video);
     }
 
-    // Try to re-enter fullscreen if exited (optional)
+    // Try to re-enter fullscreen if exited (optional, may be blocked)
     document.addEventListener('fullscreenchange', () => {
       if (!document.fullscreenElement) {
         requestFullScreen?.call(video);
